@@ -209,3 +209,30 @@ def newComment(request,id):
     else:
         return render(request, "auctions/newComment.html")
     
+def category(request):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    listings = auctionListing.objects.all()
+    if request.method == "GET":
+        return render(request, "auctions/category.html", {
+            "listings": listings
+        })
+    
+    if request.method == "POST":
+        category = request.POST["category"]
+        return HttpResponseRedirect(reverse("categories", args=(category,)), {
+            "listings": listings,
+            "category": category
+        })
+
+def categories(request, category):
+    user = request.user
+    if not user.is_authenticated:
+        return HttpResponseRedirect(reverse("login"))
+    listings = auctionListing.objects.filter(category=category)
+    if request.method == "GET":
+        return render(request, "auctions/categories.html", {
+            "listings": listings,
+            "category": category
+        })

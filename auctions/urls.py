@@ -14,6 +14,8 @@ urlpatterns = [
     path("addwatchList/<int:id>", views.addwatchList, name="addwatchList"),
     path("closed/<int:id>", views.closed, name="closed"),
     path("newComment/<int:id>", views.newComment, name="newComment"),
+    path("category", views.category, name="category"),
+    path("categories/<str:category>", views.categories, name="categories"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'auctions.views.handler404'
