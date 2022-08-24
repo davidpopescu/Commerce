@@ -1,0 +1,16 @@
+{% extends "auctions/layout.html" %}  
+{% load static %}
+{% block body %}
+    <h2>Create Listing</h2>
+    {% if message %}
+    <div class="alert alert-danger" role="alert">
+        {{ message }}
+    </div>
+    {% endif %}
+    <form action="{% url 'create' %}" class="form-horizontal" method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-block mb-4">Place listing</button>
+    </form>
+    
+{% endblock %}

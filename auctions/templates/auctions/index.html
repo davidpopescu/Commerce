@@ -1,0 +1,21 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% block body %}
+    <h2>Active Listings</h2>
+    <div class="row">
+        {% for auction in auctions %}
+        <ul class = "card">
+            <li> <img src = "{{auction.image.url}}"  class="media flex-column flex-sm-row mt-0 mb-3" id = "images" alt = "Image not found"></li>
+            <div class = "list-group">
+                <li> <h1> Product Name : {{ auction.name }}</h1> </li>
+                <li> Category : {{ auction.category }} </li>
+                <li> Actual price:{{ auction.price }}</li>
+                <li> The auction is closing on {{ auction.ending_date }} </li>
+                image styling
+                <a href = "{% url 'bid' auction.id %}">
+                    <button type="submit" class="btn btn-primary btn-block mb-4">View Details</button> 
+            </div>
+        </ul>
+        {% endfor %}
+    </div>
+{% endblock %}

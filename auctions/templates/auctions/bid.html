@@ -1,0 +1,66 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% block body %}
+
+{% if message %}
+<div class = "alert alert-danger" role="alert">
+    {{ message }}
+</div>
+{% endif %}
+
+{% if user == listing.winner and listing.ended == True %}
+<h1>Congratulations, {{listing.winner.username}} !</h1>
+<h2>You have won the auction with {{listing.price}} $</h2>
+{% endif %}
+
+{% if user == listing.user and listing.ended == False %}
+<form action="{% url 'closed' listing.id %}" method = "GET" name = "closed">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-block mb-4" name = "closed">Close Listing</button>
+</form>
+{% endif %}
+
+    {% if listing.ended == False %}
+    <li> <img src = "{{listing.image.url}}" class="media flex-column flex-sm-row mt-0 mb-3" id = "images" alt = "Image not found"></li>
+    <div class = "list-group">
+        <li> <h1> Product Name : {{ listing.name }}</h1> </li>
+        <li> Category : {{ listing.category }} </li>
+        <li> Description : {{listing.details }}</li>
+        <li> Actual price: {{ listing.price }}</li>
+        <li> The auction is closing on {{ listing.ending_date }} </li>
+        <li> Bidder name: {{ listing.user.username }} </li>
+    <form action="{% url 'bid' id%}" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-block mb-4">Place bid</button>
+    </form>
+
+    <form action="{% url 'addwatchList' listing.id %}" method = "GET" name = "button"> 
+        {% csrf_token %}
+        <button type= "submit" class="btn btn-primary btn-block mb-4" name = "button">Add to watchlist</button>
+    </form>
+
+    {% else %}
+    <h1>The auction is closed</h1>
+    <form action="{% url 'index' %}" method = "GET" name = "back">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary btn-block mb-4" name = "back">Back to home page</button>
+    {% endif %}
+        
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-12 pb-4"  id = "commentSection">
+                <h1>Comments</h1>
+                <a href="{% url 'newComment' listing.id %}" id = "commentSection">Add comment</a>
+                {% for comment in comments %}
+                <div class="comment mt-4 text-justify float-left">
+                    <h3 class="fw-bold text-primary mb-1">{{ comment.user }}</h3>
+                    <p class="text-muted small mb-0">{{comment.update_date }}</p>
+                    <p>{{ comment.comment }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+            
+{% endblock %}

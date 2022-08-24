@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+{% load static %}
+{% block body %}
+    <h1>My watchlist</h1>
+    {% if listings %}
+        {% for listing in listings %}
+            <div class = "list-group">
+                <ul>
+                <li> <img src = "{{listing.listing.image.url}}" class="media flex-column flex-sm-row mt-0 mb-3" alt = "Image not found"></li>
+                <li> <h1> Product Name : {{ listing.listing.name }}</h1> </li>
+                <li> Category : {{ listing.listing.category }} </li>
+                <li> Description : {{listing.listing.details }}</li>
+                <li> Actual price: {{ listing.listing.price }}</li>
+                <li> The auction is closing on {{ listing.listing.ending_date }} </li>
+                {% if listing.listing.ended == True %} 
+                    <li> The auction is closed </li>
+                {% endif %}
+            </ul>
+            </div>
+            <a role = "button" href = "{% url 'bid' listing.id %}" class="btn btn-outline-secondary" id = "button">Go to product</a>
+        {% endfor %}
+    {% else %}
+        <p>You have no items in your watchlist</p>
+    {% endif %}
+{% endblock %}

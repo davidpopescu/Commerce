@@ -1,0 +1,15 @@
+{% extends "auctions/layout.html" %}  
+{% load static %}
+{% block body %}
+    {% if user == listing.user %}
+    <h2>The auction is closed</h2>
+        Congralatulations! You have closed the auction.
+        The winner is {{ listing.winner.username }}.
+    {% else %}
+        The auction is still open because you are not the owner of the listing.
+    {% endif %}
+<form action="{% url 'index' %}" method = "GET" name = "back">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary btn-block mb-4" name = "back">Back to home page</button>
+</form>
+{% endblock %}
