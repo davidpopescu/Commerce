@@ -52,13 +52,15 @@
             <div class="col-sm-6 col-md-6 col-12 pb-4"  id = "commentSection">
                 <h1>Comments</h1>
                 <a href="{% url 'newComment' listing.id %}" id = "commentSection">Add comment</a>
-                {% for comment in comments %}
-                <div class="comment mt-4 text-justify float-left">
-                    <h3 class="fw-bold text-primary mb-1">{{ comment.user }}</h3>
-                    <p class="text-muted small mb-0">{{comment.update_date }}</p>
-                    <p>{{ comment.comment }}</p>
-                </div>
-                {% endfor %}
+                    {% for comment in comments %}
+                    <div class="col-12"></div>
+                    <div class="comment mt-4 text-justify float-left">
+                        <h3 class="fw-bold text-primary mb-1">{{ comment.user }}</h3>
+                        <p class="text-muted small mb-0">{{comment.update_date }}</p>
+                        <p>{{ comment.comment }}</p>
+                    </div>
+                    </div>
+                    {% endfor %}
             </div>
         </div>
     </div>

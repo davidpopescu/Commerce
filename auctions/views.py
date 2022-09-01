@@ -83,7 +83,7 @@ def create_Listing(request):
         })
 
     if request.method == "POST":
-        form = createForm(request.POST or None, request.FILES or None)
+        form = createForm(request.POST, request.FILES)
         if form.is_valid():
             name = form.cleaned_data["name"]
             category = form.cleaned_data["category"]
@@ -113,8 +113,7 @@ def bid(request, id):
     comments = Comment.objects.filter(listing=listing)
     request.session['id'] = id
     if listing.ending_date == datetime.date.today():
-        Bid.objects.create(user=user,bid_amount=bid_amount, ending_date = datetime.date.today())
-        auctionListing.objects.filter(id=id).update(price=bid_amount, winner = user)
+        auctionListing.objects.filter(ending_date = datetime.date.today()).update(winner = user, ended = True)
     if auctionListing.objects.filter(ending_date = datetime.date.today()):
         return render(request, "auctions/bid.html", {
             "id": id,
